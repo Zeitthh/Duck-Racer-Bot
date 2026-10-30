@@ -1,168 +1,139 @@
-# DuckBot 🦆
+# DuckBot
 
-Bot de Discord para una comunidad: cada miembro adopta hasta 3 patos en pixel art, los viste con cosméticos, los entrena
-y compite en carreras animadas. La moneda del juego, las **PatoCoins**, se gana escribiendo en el servidor, con un
-check-in diario y en las carreras.
+A Discord bot for communities in which each member adopts up to three pixel-art ducks, dresses them with cosmetics,
+trains them and enters them in animated races. Members earn an in-game currency, the **PatoCoin**, by chatting, by
+checking in daily and by winning races.
 
-Los patos se dibujan con el mismo código que **duck-editor**, el editor de sprites de patos del mismo autor, y pueden
-salir al azar o elegirse de un catálogo (un script genera uno de 145 aves de México). El bot está en **español e inglés** (según el idioma
-de cada usuario en Discord).
+The bot is available in **English and Spanish**; it replies in the language of each user's Discord client.
 
 <p align="center">
-  <img src="assets/media/gallery.png" alt="Galería de patos con cosméticos" width="420">
-  <img src="assets/media/race.gif" alt="Carrera de patos" width="420">
+  <img src="assets/media/gallery.png" alt="Gallery of ducks wearing cosmetics" width="420">
+  <img src="assets/media/race.gif" alt="An animated duck race" width="420">
 </p>
 
-## Qué hace
+## Features
 
-- **Adopción:** pato aleatorio (pulsa **Otro** las veces que quieras) o del catálogo. A veces sale un pato que se quedó
-  sin dueño porque su dueño dejó el servidor, con su cosmético puesto.
-- **Galería:** todos los patos del servidor en una cuadrícula numerada, con tarjeta animada de cada pato.
-- **Progresión:** los mensajes dan XP al jugador; cada nivel nuevo da PatoCoins. Cada pato tiene además su propio
-  nivel, que se sube pagando con PatoCoins.
-- **Carreras:** hasta 8 patos, con GIF de la carrera. Si no hay más jugadores, los carriles libres los ocupan patos del
-  bot, así que se puede correr solo.
-- **Tienda y vestuario:** cosméticos para probar en tu pato antes de comprarlos, cada uno en 12 colores. El arte de los
-  cosméticos se carga de un archivo; el repositorio trae solo 8 gorras de ejemplo (la blanca y una de cada color del arcoíris; ver
-  [El arte](#el-arte)).
-- **Economía:** check-in diario, transferencias entre miembros y saldo privado.
-- **Staff:** eventos de XP ×1.5/×2/×3, precios, regalos de cosméticos o monedas, y cosméticos ligados a un rol.
-- **Privado por defecto:** las respuestas solo las ve quien usa el comando. Las carreras y las subidas de nivel son
-  públicas, y las subidas de nivel se anuncian en un canal propio.
+- **Adoption.** Adopt a random duck or choose one from a catalog. Ducks whose owners have left the server may reappear
+  as ownerless ducks that new members can adopt.
+- **Gallery.** Browse every duck in the server in a numbered grid, and open the animated card of any of them.
+- **Progression.** Messages earn XP towards a player level, and each new level awards PatoCoins. Every duck also has
+  its own level, which is raised by spending PatoCoins.
+- **Races.** Races of up to eight ducks are rendered as an animated GIF. When fewer members join, the remaining lanes
+  are filled by bot-controlled ducks, so a member can race alone.
+- **Shop and wardrobe.** Preview a cosmetic on your own duck before buying it, and recolor it afterwards.
+- **Economy.** Daily check-in, transfers between members and a private balance.
+- **Moderation tools.** XP events, shop prices, gifted cosmetics and coin adjustments, restricted by role.
 
-## Comandos
+Replies are private to the member who issued the command, except for races and level-up announcements.
 
-### Para todos
+## Commands
 
-| Comando (inglés / español)                  | Qué hace                                                                                                                                                                                                                                       |
-| ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `/ping`                                     | Comprueba que el bot responde y muestra la latencia.                                                                                                                                                                                           |
-| `/adopt` · `/adoptar` `nombre` `[catalogo]` | Adopta un pato (hasta 3): aleatorio o eligiendo uno del catálogo.                                                                                                                                                                              |
-| `/duck` · `/pato` `[usuario]` `[pato]`      | Abre la **galería** (12 patos por página, ◀ ▶ y un menú para abrir cualquiera). En la tarjeta de un pato, ◀ ▶ pasan entre los patos de su dueño. En tus patos aparece **👕 Vestuario** para ponerles, quitarles o cambiar de color cosméticos. |
-| `/rename` · `/renombrar` `nombre` `[pato]`  | Cambia el nombre de uno de tus patos.                                                                                                                                                                                                          |
-| `/release` · `/liberar` `pato`              | Libera a uno de tus patos. Pide confirmación y devuelve la mitad de lo invertido en entrenarlo.                                                                                                                                                |
-| `/train` · `/entrenar` `[pato]`             | Gasta PatoCoins para subir un nivel a uno de tus patos (más nivel = más rápido en las carreras).                                                                                                                                               |
-| `/shop` · `/tienda` `[pato]`                | Un cosmético cada vez, con ◀ ▶ y vista previa en tu pato. **🛒 Comprar** y **🦆 Ponérselo**.                                                                                                                                                   |
-| `/race` · `/carrera` `[pato]`               | Abre una carrera: 60 s para unirse. Luego sale el GIF y se reparten PatoCoins.                                                                                                                                                                 |
-| `/daily` · `/diario`                        | Check-in diario: 25 PatoCoins una vez al día.                                                                                                                                                                                                  |
-| `/balance` · `/saldo`                       | Tu saldo y tu nivel de jugador.                                                                                                                                                                                                                |
-| `/pay` · `/transferir` `usuario` `cantidad` | Envía PatoCoins a otro miembro (con confirmación).                                                                                                                                                                                             |
+Every command has an English and a Spanish name; the Spanish name is shown automatically to users whose Discord client
+is set to Spanish.
 
-### Para el staff
+### Members
 
-| Comando                                                        | Qué hace                                                                                             |
-| -------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| `/evento crear` `multiplicador` `horas` `[canal]`              | Multiplicador de XP (×1.5, ×2 o ×3) en un canal o en todo el servidor.                               |
-| `/evento terminar` `evento`                                    | Termina un evento antes de tiempo (al escribir, sugiere los activos).                                |
-| `/cosmeticos precio` `cosmetico` `[precio]`                    | Cambia el precio de un cosmético. Sin precio, lo quita de la tienda (quien ya lo tiene lo conserva). |
-| `/cosmeticos dar` · `/cosmeticos quitar` `usuario` `cosmetico` | Regala o quita un cosmético a alguien.                                                               |
-| `/cosmeticos rol` `cosmetico` `[rol]`                          | Quien tenga ese rol tiene el cosmético sin comprarlo. Sin rol, se quita el vínculo.                  |
-| `/monedas dar` · `/monedas quitar` `usuario` `cantidad`        | Suma o resta PatoCoins (el saldo nunca baja de 0).                                                   |
+| Command (English / Spanish)              | Description                                                                                                              |
+| ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `/ping`                                  | Checks that the bot is responding.                                                                                       |
+| `/adopt` · `/adoptar` `name` `[catalog]` | Adopts a duck (up to three), either random or taken from the catalog.                                                    |
+| `/duck` · `/pato` `[user]` `[duck]`      | Opens the gallery of all ducks. A duck's card links to its owner's other ducks and, for your own ducks, to the wardrobe. |
+| `/rename` · `/renombrar` `name` `[duck]` | Renames one of your ducks.                                                                                               |
+| `/release` · `/liberar` `duck`           | Releases one of your ducks after confirmation, refunding half of the PatoCoins spent on training it.                     |
+| `/train` · `/entrenar` `[duck]`          | Spends PatoCoins to raise a duck's level, which makes it faster in races.                                                |
+| `/shop` · `/tienda` `[duck]`             | Browses the cosmetics on sale, previews them on your duck, and lets you buy and equip them.                              |
+| `/race` · `/carrera` `[duck]`            | Opens a race. Members have 60 seconds to join, after which the race is played and prizes are awarded.                    |
+| `/daily` · `/diario`                     | Daily check-in that awards PatoCoins once per day.                                                                       |
+| `/balance` · `/saldo`                    | Shows your PatoCoins and your player level.                                                                              |
+| `/pay` · `/transferir` `user` `amount`   | Sends PatoCoins to another member, after confirmation.                                                                   |
 
-**Quién puede usarlos:** por defecto, solo quien tiene _Gestionar servidor_. Para dárselos a un rol (por ejemplo
-"Moderador"):
+### Staff
 
-1. Ve a **Ajustes del servidor → Integraciones → DuckBot**.
-2. Entra en el comando (`/cosmeticos`, `/monedas` o `/evento`).
-3. Pulsa **Añadir roles o miembros**, elige el rol y marca ✅.
+By default these commands are visible only to members with the **Manage Server** permission. To grant them to a role,
+open **Server Settings → Integrations → the bot**, select the command, choose **Add Roles or Members** and allow the
+role. Each command is configured independently.
 
-Cada comando se configura por separado.
+| Command (English / Spanish)                                    | Description                                                                         |
+| -------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| `/event` · `/evento` `create` `multiplier` `hours` `[channel]` | Starts an XP multiplier (×1.5, ×2 or ×3) in one channel or in the whole server.     |
+| `/event` · `/evento` `end` `event`                             | Ends an XP event early.                                                             |
+| `/cosmetics` · `/cosmeticos` `price` `cosmetic` `[price]`      | Sets the price of a cosmetic; without a price, removes it from the shop.            |
+| `/cosmetics` · `/cosmeticos` `give` / `take` `user` `cosmetic` | Gives a cosmetic to a member, or takes it away.                                     |
+| `/cosmetics` · `/cosmeticos` `role` `cosmetic` `[role]`        | Grants a cosmetic to every member holding a role; without a role, removes the link. |
+| `/coins` · `/monedas` `give` / `take` `user` `amount`          | Adds PatoCoins to a member or removes them (a balance never falls below zero).      |
 
-**Tareas automáticas:** al arrancar y cada 6 horas, el bot:
+## How it works
 
-- pone a la venta los cosméticos nuevos;
-- deja sin dueño los patos de quien salió del servidor;
-- borra los movimientos de PatoCoins de hace más de 30 días.
+- **Ducks.** Each member may own up to three ducks. Only the owner can rename, train, dress or release a duck.
+- **Player level.** Each message awards 10 XP, at most once per minute. Every new level awards `level × 10` PatoCoins
+  and is announced in a dedicated channel.
+- **Duck level.** Levels range from 1 to 20 and are raised only with `/train`, at a cost of `current level × 50`
+  PatoCoins. A duck's level gives it up to a 10% speed advantage in races.
+- **Races.** A server may hold up to ten races per day, one at a time. Eight ducks always compete. With a single
+  player, the prizes are 50, 30 and 20 PatoCoins for the first three places and 10 for the rest; each additional player
+  increases them by 25%. Bot-controlled ducks do not earn prizes.
+- **Economy.** The daily check-in awards 25 PatoCoins and cosmetics cost 150 by default.
+- **Ownerless ducks.** When a member leaves the server, their ducks lose their owner and return to level 1 while keeping
+  their cosmetic. When adopting at random, there is a 25% chance of being offered one of them.
+- **Adopter role.** Members who own at least one duck receive an adopter role, which the bot creates if necessary.
 
-## Reglas del juego
+Every numeric value is defined in [`packages/core/src/rules.ts`](packages/core/src/rules.ts).
 
-- **Hasta 3 patos por persona.** Para adoptar otro hay que liberar uno. Los nombres tienen de 1 a 20 caracteres y no
-  se pueden repetir entre tus patos. Nadie puede renombrar, entrenar, vestir ni liberar el pato de otra persona.
-- **Nivel del jugador:**
-  - Cada mensaje da **10 XP**, como mucho una vez por minuto.
-  - Hacen falta 100 XP para el nivel 2, 1 000 para el 5 y 4 500 para el 10.
-  - Cada nivel nuevo da **nivel × 10 PatoCoins** y se anuncia en el canal `#duckbot`.
-- **Nivel del pato (1 a 20):**
-  - Solo sube con `/entrenar`, pagando **nivel actual × 50 PatoCoins** (de 1 a 20 cuesta 9 500 en total).
-  - Cuenta en las carreras: da hasta un +10 % de velocidad.
-- **Carreras:**
-  - Máximo **10 al día** por servidor, y una abierta a la vez.
-  - Siempre corren 8 patos. Los del bot corren al nivel medio de los jugadores y no ganan premio.
-  - Premios con un solo jugador: 🥇 50, 🥈 30, 🥉 20 y 10 para el resto. **Cada jugador extra los sube un 25 %.**
-  - Cada pato tiene una "forma del día", así que cualquiera puede ganar.
-- **Economía:**
-  - Un jugador normal gana unas 80–100 🪙 al día.
-  - Cada cosmético cuesta 150 🪙 (el staff puede cambiar el precio).
-  - Al liberar un pato se devuelve la mitad de lo invertido en entrenarlo.
-- **Patos sin dueño:**
-  - Si alguien deja el servidor, sus patos vuelven al nivel 1 y conservan su cosmético.
-  - Al adoptar al azar, hay un 25 % de probabilidad de que salga uno de ellos.
-- **Rol de adoptador:** quien tiene pato recibe el rol **Adoptador de patos** (el bot lo crea si no existe) y lo pierde
-  al liberar el último.
-- Todos los valores ajustables están en [`packages/core/src/rules.ts`](packages/core/src/rules.ts).
+## Installation
 
-## Instalación
+### Requirements
 
-### 1. Requisitos
+- Node.js 22.12 or later
+- pnpm 10 (`npm install -g pnpm@10`)
 
-- **Node.js 22.12 o superior**.
-- **pnpm 10**: `npm install -g pnpm@10`.
-- En Windows, si `pnpm` "no se reconoce como comando", añade `%APPDATA%\npm` al `Path` de tu usuario y abre una
-  terminal nueva.
+No external services are required: the database is a local SQLite file.
 
-No hace falta Docker: la base de datos es un archivo SQLite (`data/duckbot.db`).
+### 1. Create the Discord application
 
-### 2. Crear el bot en Discord
-
-El **Developer Portal solo está en inglés**. Por eso los botones aparecen con su nombre en inglés y la traducción entre
-paréntesis.
-
-1. En <https://discord.com/developers/applications>, pulsa **New Application** (_Nueva aplicación_), ponle un nombre y
-   pulsa **Create** (_Crear_).
-2. En **General Information** (_Información general_), copia el **Application ID** (_ID de la aplicación_): es tu
-   `DISCORD_CLIENT_ID`.
-3. En **Bot**, pulsa **Reset Token** (_Restablecer token_) y copia el token: es tu `DISCORD_TOKEN`.
-   - Solo se muestra una vez.
-   - En **Privileged Gateway Intents** (_Intents privilegiados_) **no actives nada**.
-4. Invita el bot con esta URL, cambiando `TU_CLIENT_ID` por el número del paso 2:
+1. In the [Discord Developer Portal](https://discord.com/developers/applications), create a **New Application**.
+2. Under **General Information**, copy the **Application ID** (`DISCORD_CLIENT_ID`).
+3. Under **Bot**, reset and copy the token (`DISCORD_TOKEN`). It is displayed only once. Leave all **Privileged Gateway
+   Intents** disabled.
+4. Invite the bot with the following URL, replacing `YOUR_CLIENT_ID`:
 
    ```
-   https://discord.com/oauth2/authorize?client_id=TU_CLIENT_ID&scope=bot+applications.commands&permissions=268487680
+   https://discord.com/oauth2/authorize?client_id=YOUR_CLIENT_ID&scope=bot+applications.commands&permissions=268487680
    ```
 
-   Esa URL le da estos permisos: Ver canales, Enviar mensajes, Insertar enlaces, Adjuntar archivos y Gestionar roles.
+   The URL grants the permissions View Channels, Send Messages, Embed Links, Attach Files and Manage Roles.
 
-5. En tu servidor, **Ajustes del servidor → Roles**: arrastra el rol del bot por encima de **Adoptador de patos**.
-   Discord no deja a un bot dar roles que estén por encima del suyo.
-6. Crea un canal de texto **#duckbot** para los avisos de nivel.
-7. Activa **Ajustes de usuario → Avanzado → Modo desarrollador**. Luego haz clic derecho en tu servidor y elige
-   **Copiar ID del servidor**: es tu `DISCORD_DEV_GUILD_ID`.
+5. In **Server Settings → Roles**, move the bot's role above the adopter role, since Discord does not allow a bot to
+   assign roles that sit above its own.
+6. Create a text channel named `duckbot` for level-up announcements.
+7. Enable **Developer Mode** in your Discord settings, right-click the server and choose **Copy Server ID**
+   (`DISCORD_DEV_GUILD_ID`).
 
-> ⚠️ El token es la contraseña del bot. Va solo en `.env`, que no se sube a git. Si se filtra, regenéralo en el portal.
+The token is the bot's password. Store it only in `.env`, which is excluded from version control, and regenerate it in
+the portal if it is ever exposed.
 
-### 3. Configurar y arrancar
+### 2. Configure and run
 
 ```bash
 pnpm install
-cp .env.example .env    # en Windows: copy .env.example .env
+cp .env.example .env    # on Windows: copy .env.example .env
 ```
 
-Rellena en `.env` los tres valores de Discord. El resto tiene valores por defecto:
+Fill in the three Discord values in `.env`. All other settings have defaults:
 
-| Variable               | Para qué                                                             | Por defecto              |
-| ---------------------- | -------------------------------------------------------------------- | ------------------------ |
-| `DISCORD_TOKEN`        | Token del bot                                                        | —                        |
-| `DISCORD_CLIENT_ID`    | ID de la aplicación                                                  | —                        |
-| `DISCORD_DEV_GUILD_ID` | Servidor donde se registran los comandos                             | —                        |
-| `ASSETS_DIR`           | Carpeta con el arte: cosméticos y catálogo (ver [El arte](#el-arte)) | `assets`                 |
-| `DATABASE_URL`         | Archivo SQLite                                                       | `file:./data/duckbot.db` |
-| `DEFAULT_LOCALE`       | Idioma si Discord no informa uno (`es-419` o `en-US`)                | `es-419`                 |
-| `TIMEZONE`             | Zona horaria: a medianoche se reinician las carreras y el `/diario`  | `America/Mexico_City`    |
-| `LEVEL_UP_CHANNEL`     | Canal donde se anuncian las subidas de nivel                         | `duckbot`                |
-| `ADOPTER_ROLE`         | Rol de quien tiene pato                                              | `Adoptador de patos`     |
-| `LOG_LEVEL`            | `debug`, `info`, `warn` o `error`                                    | `info`                   |
+| Variable               | Purpose                                                                   | Default                  |
+| ---------------------- | ------------------------------------------------------------------------- | ------------------------ |
+| `DISCORD_TOKEN`        | Bot token                                                                 | —                        |
+| `DISCORD_CLIENT_ID`    | Application ID                                                            | —                        |
+| `DISCORD_DEV_GUILD_ID` | Server in which the commands are registered                               | —                        |
+| `ASSETS_DIR`           | Folder with the cosmetics and the catalog (see [Art assets](#art-assets)) | `assets`                 |
+| `DATABASE_URL`         | SQLite database file                                                      | `file:./data/duckbot.db` |
+| `DEFAULT_LOCALE`       | Fallback language: `es-419` or `en-US`                                    | `es-419`                 |
+| `TIMEZONE`             | IANA time zone; daily limits reset at midnight in this zone               | `America/Mexico_City`    |
+| `LEVEL_UP_CHANNEL`     | Name of the channel for level-up announcements                            | `duckbot`                |
+| `ADOPTER_ROLE`         | Name of the role given to duck owners                                     | `Adoptador de patos`     |
+| `LOG_LEVEL`            | `debug`, `info`, `warn` or `error`                                        | `info`                   |
 
-Después, en este orden, genera el cliente de la base de datos, crea la base, registra los comandos y arranca el bot:
+Then generate the database client, create the database, register the commands and start the bot:
 
 ```bash
 pnpm db:generate
@@ -171,79 +142,70 @@ pnpm commands:deploy
 pnpm dev
 ```
 
-Cuando veas `Logged in as TuBot#1234`, el bot está en línea. Los comandos se registran solo en tu servidor, así que
-aparecen al instante. Vuelve a ejecutar `pnpm commands:deploy` cada vez que cambien los comandos.
+The bot responds only while the process is running. Run `pnpm commands:deploy` again whenever the commands change.
 
-> El bot solo responde mientras el proceso esté corriendo. Para tenerlo 24/7 hace falta un servidor.
+## Art assets
 
-## El arte
-
-El arte no está en el código: el bot lo lee de la carpeta que indica `ASSETS_DIR`, que puede estar fuera del
-repositorio. Por defecto es `assets/`, que solo trae un ejemplo mínimo para que el bot funcione y para ver el formato.
+The artwork is not part of the code. The bot reads it from the folder given by `ASSETS_DIR`, which may be located
+outside the repository:
 
 ```
 <ASSETS_DIR>/
-├── accessories.json      Los cosméticos
+├── accessories.json      Cosmetics
 └── catalog/
-    └── *.duck.json       Los patos del catálogo
+    └── *.duck.json       Catalog ducks
 ```
 
-- **`accessories.json`:** una lista de cosméticos. Cada uno tiene un `id`, su nombre en `en-US` y `es-419`, el color
-  principal, y 4 caras (derecha, frente, izquierda, espalda) con dos capas de 16×16 caracteres (`under` va detrás del
-  pato, `over` encima). El ejemplo, con 8 gorras (la blanca y una de cada color del arcoíris), está en
-  [`assets/accessories.json`](assets/accessories.json) y se regenera con `pnpm assets:sample`. Al arrancar, el bot
-  valida el archivo y pone a la venta los cosméticos nuevos. Si falta o no es válido, el bot arranca sin cosméticos y
-  lo avisa en el log.
-- **`catalog/*.duck.json`:** proyectos exportados de duck-editor; se usa la versión 8×8 de cada pato. Para añadir
-  patos, copia el archivo a esa carpeta y reinicia el bot. `pnpm catalog:birds` genera en esa carpeta
-  `aves-mexico.duck.json` (145 aves de México).
+- **`accessories.json`** is a list of cosmetics. Each one has an `id`, a name in `en-US` and `es-419`, a main color, and
+  four faces (right, front, left, back), each with two 16×16 layers (`under` is drawn behind the duck, `over` in
+  front). The file is validated at startup; if it is missing or invalid, the bot starts without cosmetics and logs a
+  warning.
+- **`catalog/*.duck.json`** are projects exported from the duck-editor sprite editor; the 8×8 version of each duck is
+  used. `pnpm catalog:birds` generates a larger catalog of ducks named after birds.
 
-Para usar tu propio arte sin subirlo al repositorio, ponlo en otra carpeta y apunta a ella en `.env`:
+The repository includes a minimal sample: eight caps (one white and one for each color of the rainbow) in
+[`assets/accessories.json`](assets/accessories.json), regenerated with `pnpm assets:sample`, and three ducks in
+`assets/catalog/`. To use your own artwork, place it in another folder and set `ASSETS_DIR` accordingly.
 
-```bash
-ASSETS_DIR=D:/mi-arte
-```
+## Development
 
-## Desarrollo
+| Command                     | Description                                     |
+| --------------------------- | ----------------------------------------------- |
+| `pnpm dev`                  | Starts the bot and restarts it on file changes. |
+| `pnpm start`                | Starts the bot.                                 |
+| `pnpm commands:deploy`      | Registers the slash commands.                   |
+| `pnpm db:generate`          | Generates the Prisma client.                    |
+| `pnpm db:migrate`           | Applies (and creates) database migrations.      |
+| `pnpm db:studio`            | Opens Prisma Studio.                            |
+| `pnpm test`                 | Runs the tests (Vitest).                        |
+| `pnpm typecheck`            | Type-checks every package.                      |
+| `pnpm lint` / `pnpm format` | Runs ESLint and Prettier.                       |
 
-| Comando                     | Qué hace                                                                   |
-| --------------------------- | -------------------------------------------------------------------------- |
-| `pnpm dev`                  | Arranca el bot y lo reinicia al guardar.                                   |
-| `pnpm start`                | Arranca el bot sin reinicio automático.                                    |
-| `pnpm commands:deploy`      | Registra los slash commands en tu servidor.                                |
-| `pnpm db:generate`          | Genera el cliente de Prisma (después de instalar o de cambiar el esquema). |
-| `pnpm db:migrate`           | Aplica las migraciones (y crea una nueva si cambiaste `schema.prisma`).    |
-| `pnpm db:studio`            | Abre Prisma Studio para ver la base de datos.                              |
-| `pnpm test`                 | Tests (Vitest).                                                            |
-| `pnpm typecheck`            | Comprueba los tipos de todos los paquetes.                                 |
-| `pnpm lint` / `pnpm format` | ESLint + Prettier.                                                         |
-
-**Stack:**
-
-- TypeScript sobre Node.js, en un monorepo con pnpm.
-- discord.js 14.
-- Prisma 7 con SQLite (better-sqlite3).
-- Zod para validar la configuración y los datos.
-- Vitest, ESLint y Prettier.
-- Las imágenes (PNG y GIF) se generan en TypeScript puro, sin dependencias nativas.
+**Stack:** TypeScript on Node.js in a pnpm monorepo, discord.js 14, Prisma 7 with SQLite, Zod, and Vitest. Images are
+generated in plain TypeScript, without native dependencies.
 
 ```
-apps/bot/          Proceso de Discord: comandos, botones, XP por mensajes y tareas automáticas
-packages/core/     Reglas del juego puras (sin Discord ni base de datos): patos, niveles, carreras, economía
-packages/render/   PNG y GIF de los patos, la galería y las carreras
-packages/i18n/     Textos en en-US y es-419
-packages/db/       Esquema de Prisma, migraciones y cliente SQLite
-assets/            Arte de ejemplo: accessories.json (8 gorras) y catalog/ (3 patos); imágenes del README en media/
+apps/bot/          Discord process: commands, buttons, message XP and scheduled tasks
+packages/core/     Game rules (no Discord or database dependencies)
+packages/render/   PNG and GIF rendering
+packages/i18n/     English and Spanish messages
+packages/db/       Prisma schema, migrations and SQLite client
+assets/            Sample artwork and README images
+scripts/           Asset generators
 ```
 
-## Problemas comunes
+## Troubleshooting
 
-| Síntoma                                | Solución                                                                                       |
-| -------------------------------------- | ---------------------------------------------------------------------------------------------- |
-| `Invalid configuration in .env`        | Falta un valor en `.env` o está mal. El mensaje dice cuál.                                     |
-| Error al importar `generated/prisma`   | Ejecuta `pnpm db:generate`.                                                                    |
-| Los comandos no aparecen               | Ejecuta `pnpm commands:deploy`, revisa `DISCORD_DEV_GUILD_ID` y recarga Discord (`Ctrl + R`).  |
-| `Missing Access` al registrar comandos | El bot no está en ese servidor o se invitó sin el scope `applications.commands`.               |
-| `TokenInvalid` al arrancar             | El token está mal copiado o se regeneró. Copia uno nuevo.                                      |
-| El bot no da el rol de adoptador       | Dale **Gestionar roles** y pon su rol por encima de **Adoptador de patos** en Ajustes → Roles. |
-| "La aplicación no respondió"           | El bot no está corriendo o se cayó: revisa la terminal.                                        |
+| Symptom                           | Solution                                                                                 |
+| --------------------------------- | ---------------------------------------------------------------------------------------- |
+| `Invalid configuration in .env`   | A value is missing or malformed; the message names it.                                   |
+| Cannot import `generated/prisma`  | Run `pnpm db:generate`.                                                                  |
+| Commands do not appear            | Run `pnpm commands:deploy`, check `DISCORD_DEV_GUILD_ID`, and reload Discord.            |
+| `Missing Access` when registering | The bot is not in that server, or was invited without the `applications.commands` scope. |
+| `TokenInvalid` on startup         | The token is incorrect or has been regenerated.                                          |
+| The adopter role is not assigned  | Grant the bot **Manage Roles** and place its role above the adopter role.                |
+| "The application did not respond" | The bot process is not running.                                                          |
+
+## License
+
+Released under the MIT License.
