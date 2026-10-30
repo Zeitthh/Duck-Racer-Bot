@@ -10,7 +10,7 @@ const schema = z.object({
   DISCORD_TOKEN: z.string().min(1, 'is missing'),
   DISCORD_CLIENT_ID: snowflake,
   DISCORD_DEV_GUILD_ID: snowflake,
-  DEFAULT_LOCALE: z.enum(LOCALES).default('es-419'),
+  DEFAULT_LOCALE: z.enum(LOCALES).default('en-US'),
   LOG_LEVEL: z.enum(LOG_LEVELS).default('info'),
   /** Canal (por nombre) donde se anuncian las subidas de nivel. Si no existe, se anuncian donde se escribió. */
   LEVEL_UP_CHANNEL: z.string().trim().min(1).default('duckbot'),
@@ -24,9 +24,9 @@ const schema = z.object({
     .string()
     .trim()
     .default(DEFAULT_TIMEZONE)
-    .refine(isValidTimeZone, 'must be an IANA time zone, for example America/Mexico_City'),
+    .refine(isValidTimeZone, 'must be an IANA time zone, for example America/New_York'),
   /** Rol que reciben quienes adoptan un pato. Si no existe, el bot lo crea. */
-  ADOPTER_ROLE: z.string().trim().min(1).max(100).default('Adoptador de patos'),
+  ADOPTER_ROLE: z.string().trim().min(1).max(100).default('Duck Adopter'),
 });
 
 export type Config = z.infer<typeof schema>;

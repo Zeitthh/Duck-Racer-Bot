@@ -12,7 +12,7 @@ model Guild {
   /// Id del servidor de Discord
   id        String      @id
   /// Zona horaria IANA: define cuándo empieza el día para los límites diarios
-  timezone  String      @default("America/Mexico_City")
+  timezone  String      @default("UTC")
   createdAt DateTime    @default(now())
   members   Member[]
   xpEvents  XpEvent[]

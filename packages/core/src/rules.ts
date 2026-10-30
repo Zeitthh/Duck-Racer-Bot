@@ -61,4 +61,4 @@ export const racePrize = (position: number, players = 1) =>
 /** Precio máximo que un admin puede poner a un cosmético. */
 export const MAX_PRICE = 1_000_000;
 
-export const DEFAULT_TIMEZONE = 'America/Mexico_City';
+export const DEFAULT_TIMEZONE = 'UTC';
