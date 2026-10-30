@@ -1,0 +1,7 @@
+node_modules
+pnpm-lock.yaml
+**/generated/**
+**/migrations/**
+data
+assets/catalog
+assets/accessories.json

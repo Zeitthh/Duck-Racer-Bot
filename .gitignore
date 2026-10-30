@@ -1,0 +1,22 @@
+# Dependencias y compilados
+node_modules/
+dist/
+coverage/
+
+# Secretos: el token y los ids van solo en .env (la plantilla es .env.example)
+.env
+.env.*
+!.env.example
+
+# Base de datos local: tiene los ids de Discord de los miembros, sus patos y saldos
+data/
+
+# Cliente de Prisma generado (se crea con pnpm db:generate)
+packages/db/src/generated/
+
+# Sistema y editores
+*.log
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

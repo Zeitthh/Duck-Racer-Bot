@@ -1,0 +1,35 @@
+{
+  "name": "duckbot",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.34.9",
+  "engines": {
+    "node": ">=22.12"
+  },
+  "scripts": {
+    "dev": "pnpm --filter @duckbot/bot dev",
+    "start": "pnpm --filter @duckbot/bot start",
+    "commands:deploy": "pnpm --filter @duckbot/bot commands:deploy",
+    "db:generate": "pnpm --filter @duckbot/db generate",
+    "db:migrate": "pnpm --filter @duckbot/db migrate",
+    "db:studio": "pnpm --filter @duckbot/db studio",
+    "catalog:birds": "tsx scripts/generate-bird-catalog.ts",
+    "assets:sample": "tsx scripts/generate-sample-accessories.ts",
+    "typecheck": "pnpm -r typecheck",
+    "test": "vitest run",
+    "lint": "eslint . && prettier --check .",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "@duckbot/core": "workspace:*",
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^24.19.2",
+    "eslint": "10.13.0",
+    "eslint-config-prettier": "10.1.8",
+    "prettier": "3.9.10",
+    "tsx": "4.23.15",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.72.1",
+    "vitest": "5.0.5"
+  }
+}

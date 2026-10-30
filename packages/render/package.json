@@ -1,0 +1,14 @@
+{
+  "name": "@duckbot/render",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p ."
+  },
+  "dependencies": {
+    "@duckbot/core": "workspace:*"
+  }
+}

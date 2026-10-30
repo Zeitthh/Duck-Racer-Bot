@@ -1,0 +1,166 @@
+// SQLite en local. Para PostgreSQL: cambiar el provider, el adaptador de src/index.ts y regenerar las migraciones.
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model Guild {
+  /// Id del servidor de Discord
+  id        String      @id
+  /// Zona horaria IANA: define cuándo empieza el día para los límites diarios
+  timezone  String      @default("America/Mexico_City")
+  createdAt DateTime    @default(now())
+  members   Member[]
+  xpEvents  XpEvent[]
+  shopItems ShopItem[]
+  races     Race[]
+}
+
+/// Un usuario de Discord dentro de un servidor.
+model Member {
+  id           String            @id @default(cuid())
+  discordId    String
+  guildId      String
+  guild        Guild             @relation(fields: [guildId], references: [id], onDelete: Cascade)
+  /// XP acumulada por mensajes (cuenta aunque todavía no tenga pato)
+  xp           Int               @default(0)
+  /// Mensajes escritos en el servidor desde que el bot los cuenta
+  messages     Int               @default(0)
+  /// Último mensaje que dio XP (para el tiempo de espera anti-spam)
+  lastXpAt     DateTime?
+  /// Saldo de PatoCoins (cada cambio se registra en CoinTransaction en la misma transacción)
+  coins        Int               @default(0)
+  /// Día local "YYYY-MM-DD" del último /diario (zona del servidor)
+  lastDailyKey String?
+  createdAt    DateTime          @default(now())
+  /// Hasta MAX_DUCKS (@duckbot/core), del más antiguo al más nuevo
+  ducks        Duck[]
+  inventory    InventoryItem[]
+  transactions CoinTransaction[]
+  raceEntries  RaceEntry[]
+
+  @@unique([discordId, guildId])
+}
+
+/// Un pato de un miembro (cada miembro puede tener varios). Al liberarlo se borra.
+model Duck {
+  id             String      @id @default(cuid())
+  memberId       String
+  member        Member      @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  name           String
+  /// Nivel del pato (1..MAX_DUCK_LEVEL): sube entrenándolo con PatoCoins y da ventaja en las carreras
+  level          Int         @default(1)
+  /// JSON { palette, frames } validado con appearanceSchema de @duckbot/core
+  appearance     String
+  /// "random:<semilla>" o "catalog:<id del catálogo>"
+  origin         String
+  /// Accesorio puesto (id de ACCESSORIES en @duckbot/core) y su color principal
+  accessoryId    String?
+  accessoryColor String?
+  /// Si no es null, el pato no tiene dueño (su dueño dejó el servidor) y puede salir al adoptar al azar. Mientras,
+  /// memberId sigue apuntando al antiguo dueño solo para saber de qué servidor es.
+  strayedAt      DateTime?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  raceEntries    RaceEntry[]
+
+  @@index([memberId, createdAt])
+}
+
+/// Multiplicador de XP temporal, en un canal o en todo el servidor.
+model XpEvent {
+  id          String   @id @default(cuid())
+  guildId     String
+  guild       Guild    @relation(fields: [guildId], references: [id], onDelete: Cascade)
+  /// null = todos los canales
+  channelId   String?
+  multiplier  Float
+  startsAt    DateTime @default(now())
+  endsAt      DateTime
+  createdById String
+
+  @@index([guildId, endsAt])
+}
+
+/// Configuración de un cosmético en un servidor: precio en la tienda y rol que lo da.
+model ShopItem {
+  guildId     String
+  guild       Guild   @relation(fields: [guildId], references: [id], onDelete: Cascade)
+  accessoryId String
+  /// null = no está a la venta
+  price       Int?
+  /// Los miembros con este rol lo tienen sin comprarlo
+  roleId      String?
+
+  @@id([guildId, accessoryId])
+}
+
+/// Cosméticos que tiene un miembro (comprados o asignados por un admin).
+model InventoryItem {
+  id          String   @id @default(cuid())
+  memberId    String
+  member      Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  accessoryId String
+  /// "shop" | "grant"
+  source      String
+  createdAt   DateTime @default(now())
+
+  @@unique([memberId, accessoryId])
+}
+
+/// Movimientos de PatoCoins de los últimos 30 días (los más viejos se borran solos). Sirven para revisar errores o
+/// abusos; el saldo de Member.coins se actualiza en la misma transacción.
+model CoinTransaction {
+  id        String   @id @default(cuid())
+  memberId  String
+  member    Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  /// + ingreso, − gasto
+  amount    Int
+  /// "race_prize" | "level_up" | "daily" | "shop" | "train" | "release_refund" | "transfer_in" | "transfer_out" | "admin"
+  reason    String
+  /// Id relacionado (carrera, accesorio...)
+  refId     String?
+  createdAt DateTime @default(now())
+
+  @@index([memberId, createdAt])
+}
+
+model Race {
+  id          String      @id @default(cuid())
+  guildId     String
+  guild       Guild       @relation(fields: [guildId], references: [id], onDelete: Cascade)
+  /// Día local "YYYY-MM-DD" (zona del servidor) para el límite diario
+  dayKey      String
+  seed        Int
+  /// "OPEN" | "FINISHED" | "CANCELLED"
+  status      String      @default("OPEN")
+  createdById String
+  createdAt   DateTime    @default(now())
+  finishedAt  DateTime?
+  entries     RaceEntry[]
+
+  @@index([guildId, dayKey])
+}
+
+model RaceEntry {
+  id       String @id @default(cuid())
+  raceId   String
+  race     Race   @relation(fields: [raceId], references: [id], onDelete: Cascade)
+  memberId String
+  member   Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  /// null si el pato se liberó después: la carrera sigue en el historial
+  duckId   String?
+  duck     Duck?  @relation(fields: [duckId], references: [id], onDelete: SetNull)
+  /// Carril (0 = el de arriba)
+  lane     Int
+  /// Nivel del pato al salir: con la semilla, permite repetir la carrera igual
+  level    Int?
+  position Int?
+  prize    Int?
+
+  @@unique([raceId, memberId])
+}

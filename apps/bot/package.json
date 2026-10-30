@@ -1,0 +1,19 @@
+{
+  "name": "@duckbot/bot",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "start": "tsx src/index.ts",
+    "commands:deploy": "tsx src/deploy-commands.ts",
+    "typecheck": "tsc -p ."
+  },
+  "dependencies": {
+    "@duckbot/core": "workspace:*",
+    "@duckbot/db": "workspace:*",
+    "@duckbot/i18n": "workspace:*",
+    "@duckbot/render": "workspace:*",
+    "discord.js": "14.27.0",
+    "zod": "4.6.7"
+  }
+}
