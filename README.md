@@ -28,7 +28,6 @@ Replies are private to the member who issued the command, except for races and l
 
 ## Commands
 
-<<<<<<< HEAD
 Every command is available in English and Spanish. Discord shows the Spanish names to users whose client is set to
 Spanish. Arguments in square brackets are optional.
 
@@ -47,26 +46,23 @@ Spanish. Arguments in square brackets are optional.
 | `/daily`                | `/diario`                      | Daily check-in that awards PatoCoins once per day.                                                                       |
 | `/balance`              | `/saldo`                       | Shows your PatoCoins and your player level.                                                                              |
 | `/pay user amount`      | `/transferir usuario cantidad` | Sends PatoCoins to another member, after confirmation.                                                                   |
-=======
-Every command has an English and a Spanish name; the Spanish name is shown automatically to users whose Discord client
-is set to Spanish.
+
 
 ### Members
 
-| Command (English / Spanish)              | Description                                                                                                              |
-| ---------------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| `/ping`                                  | Checks that the bot is responding.                                                                                       |
-| `/adopt` · `/adoptar` `name` `[catalog]` | Adopts a duck (up to three), either random or taken from the catalog.                                                    |
-| `/duck` · `/pato` `[user]` `[duck]`      | Opens the gallery of all ducks. A duck's card links to its owner's other ducks and, for your own ducks, to the wardrobe. |
-| `/rename` · `/renombrar` `name` `[duck]` | Renames one of your ducks.                                                                                               |
-| `/release` · `/liberar` `duck`           | Releases one of your ducks after confirmation, refunding half of the PatoCoins spent on training it.                     |
-| `/train` · `/entrenar` `[duck]`          | Spends PatoCoins to raise a duck's level, which makes it faster in races.                                                |
-| `/shop` · `/tienda` `[duck]`             | Browses the cosmetics on sale, previews them on your duck, and lets you buy and equip them.                              |
-| `/race` · `/carrera` `[duck]`            | Opens a race. Members have 60 seconds to join, after which the race is played and prizes are awarded.                    |
-| `/daily` · `/diario`                     | Daily check-in that awards PatoCoins once per day.                                                                       |
-| `/balance` · `/saldo`                    | Shows your PatoCoins and your player level.                                                                              |
-| `/pay` · `/transferir` `user` `amount`   | Sends PatoCoins to another member, after confirmation.                                                                   |
->>>>>>> 2ea9822e815a84dc8109f1005e65cc751fc5798e
+| English                     | Spanish                        | Description                                                                                                              |
+| ----------------------------| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------ |
+| `/ping`                                                      | Checks that the bot is responding.                                                                                       |
+| `/adopt` `name` `[catalog]` |  `/adoptar` `name` `[catalog]` | Adopts a duck (up to three), either random or taken from the catalog.                                                    |
+| `/duck` `[user]` `[duck]`   | `/pato` `[user]` `[duck]`      | Opens the gallery of all ducks. A duck's card links to its owner's other ducks and, for your own ducks, to the wardrobe. |
+| `/rename` `name` `[duck]`   | `/renombrar` `name` `[duck]`   | Renames one of your ducks.                                                                                               |
+| `/release` `duck`           | `/liberar` `duck`              | Releases one of your ducks after confirmation, refunding half of the PatoCoins spent on training it.                     |
+| `/train` `[duck]`           | `/entrenar` `[duck]`           | Spends PatoCoins to raise a duck's level, which makes it faster in races.                                                |
+| `/shop` `[duck]`            | `/tienda` `[duck]`             | Browses the cosmetics on sale, previews them on your duck, and lets you buy and equip them.                              |
+| `/race` `[duck]`            | `/carrera` `[duck]`            | Opens a race. Members have 60 seconds to join, after which the race is played and prizes are awarded.                    |
+| `/daily`                    | `/diario`                      | Daily check-in that awards PatoCoins once per day.                                                                       |
+| `/balance`                  | `/saldo`                       | Shows your PatoCoins and your player level.                                                                              |
+| `/pay` `user` `amount`      | `/transferir` `user` `amount`  | Sends PatoCoins to another member, after confirmation.                                                                   |
 
 ### Staff
 
@@ -74,7 +70,6 @@ By default these commands are visible only to members with the **Manage Server**
 open **Server Settings → Integrations → the bot**, select the command, choose **Add Roles or Members** and allow the
 role. Each command is configured independently.
 
-<<<<<<< HEAD
 | English                                   | Spanish                                     | Description                                                                         |
 | ----------------------------------------- | ------------------------------------------- | ----------------------------------------------------------------------------------- |
 | `/event start multiplier hours [channel]` | `/evento crear multiplicador horas [canal]` | Starts an XP multiplier (×1.5, ×2 or ×3) in one channel or in the whole server.     |
@@ -85,16 +80,6 @@ role. Each command is configured independently.
 | `/cosmetics role cosmetic [role]`         | `/cosmeticos rol cosmetico [rol]`           | Grants a cosmetic to every member holding a role; without a role, removes the link. |
 | `/coins give user amount`                 | `/monedas dar usuario cantidad`             | Adds PatoCoins to a member.                                                         |
 | `/coins take user amount`                 | `/monedas quitar usuario cantidad`          | Removes PatoCoins from a member (a balance never falls below zero).                 |
-=======
-| Command (English / Spanish)                                    | Description                                                                         |
-| -------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
-| `/event` · `/evento` `create` `multiplier` `hours` `[channel]` | Starts an XP multiplier (×1.5, ×2 or ×3) in one channel or in the whole server.     |
-| `/event` · `/evento` `end` `event`                             | Ends an XP event early.                                                             |
-| `/cosmetics` · `/cosmeticos` `price` `cosmetic` `[price]`      | Sets the price of a cosmetic; without a price, removes it from the shop.            |
-| `/cosmetics` · `/cosmeticos` `give` / `take` `user` `cosmetic` | Gives a cosmetic to a member, or takes it away.                                     |
-| `/cosmetics` · `/cosmeticos` `role` `cosmetic` `[role]`        | Grants a cosmetic to every member holding a role; without a role, removes the link. |
-| `/coins` · `/monedas` `give` / `take` `user` `amount`          | Adds PatoCoins to a member or removes them (a balance never falls below zero).      |
->>>>>>> 2ea9822e815a84dc8109f1005e65cc751fc5798e
 
 ## How it works
 
@@ -171,7 +156,6 @@ Fill in the three Discord values in `.env`. All other settings have defaults:
 | `TIMEZONE`             | IANA time zone; daily limits reset at midnight in this zone               | `America/Mexico_City`    |
 | `LEVEL_UP_CHANNEL`     | Name of the channel for level-up announcements                            | `duckbot`                |
 | `ADOPTER_ROLE`         | Name of the role given to duck owners                                     | `Adoptador de patos`     |
->>>>>>> 2ea9822e815a84dc8109f1005e65cc751fc5798e
 | `LOG_LEVEL`            | `debug`, `info`, `warn` or `error`                                        | `info`                   |
 
 Then generate the database client, create the database, register the commands and start the bot:
