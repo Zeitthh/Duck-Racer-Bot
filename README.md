@@ -52,7 +52,7 @@ Spanish. Arguments in square brackets are optional.
 
 | English                     | Spanish                        | Description                                                                                                              |
 | ----------------------------| ------------------------------ | ------------------------------------------------------------------------------------------------------------------------ |
-| `/ping`                                                      | Checks that the bot is responding.                                                                                       |
+| `/ping`                     | `/ping`                        | Checks that the bot is responding.                                                                                       |
 | `/adopt` `name` `[catalog]` |  `/adoptar` `name` `[catalog]` | Adopts a duck (up to three), either random or taken from the catalog.                                                    |
 | `/duck` `[user]` `[duck]`   | `/pato` `[user]` `[duck]`      | Opens the gallery of all ducks. A duck's card links to its owner's other ducks and, for your own ducks, to the wardrobe. |
 | `/rename` `name` `[duck]`   | `/renombrar` `name` `[duck]`   | Renames one of your ducks.                                                                                               |
