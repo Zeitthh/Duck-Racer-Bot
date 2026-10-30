@@ -146,12 +146,10 @@ Fill in the three Discord values in `.env`. All other settings have defaults:
 | `DISCORD_DEV_GUILD_ID` | Server in which the commands are registered                               | —                        |
 | `ASSETS_DIR`           | Folder with the cosmetics and the catalog (see [Art assets](#art-assets)) | `assets`                 |
 | `DATABASE_URL`         | SQLite database file                                                      | `file:./data/duckbot.db` |
-<<<<<<< HEAD
 | `DEFAULT_LOCALE`       | Fallback language: `en-US` or `es-419`                                    | `en-US`                  |
 | `TIMEZONE`             | IANA time zone; daily limits reset at midnight in this zone               | `UTC`                    |
 | `LEVEL_UP_CHANNEL`     | Name of the channel for level-up announcements                            | `duckbot`                |
 | `ADOPTER_ROLE`         | Name of the role given to duck owners                                     | `Duck Adopter`           |
-=======
 | `DEFAULT_LOCALE`       | Fallback language: `es-419` or `en-US`                                    | `es-419`                 |
 | `TIMEZONE`             | IANA time zone; daily limits reset at midnight in this zone               | `America/Mexico_City`    |
 | `LEVEL_UP_CHANNEL`     | Name of the channel for level-up announcements                            | `duckbot`                |
